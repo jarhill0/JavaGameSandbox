@@ -1,20 +1,35 @@
 public class DirectionThread extends Thread {
     private int change;
-    public boolean enabled = false;
     private Character character;
-    private Directions direction;
 
-    public DirectionThread(Character character, int change, Directions direction) {
+    public boolean leftEnabled = false;
+    public boolean rightEnabled = false;
+    public boolean downEnabled = false;
+    public boolean upEnabled = false;
+
+
+    public DirectionThread(Character character, int change) {
         this.change = change;
         this.character = character;
-        this.direction = direction;
 
     }
 
     public void run() {
         while (true) {
-            if (enabled) {
-                character.move(change, direction);
+            if (leftEnabled != rightEnabled) {
+                // prevent jittery motion if they're both enabled.
+                if (leftEnabled)
+                    character.move(change, Directions.LEFT);
+                else
+                    character.move(change, Directions.RIGHT);
+            }
+
+            if (upEnabled != downEnabled) {
+                // prevent jittery motion if they're both enabled.
+                if (downEnabled)
+                    character.move(change, Directions.DOWN);
+                else
+                    character.move(change, Directions.UP);
             }
             try {
                 Thread.sleep(10);

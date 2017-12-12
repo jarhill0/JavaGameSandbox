@@ -6,10 +6,7 @@ public class Game extends JPanel {
     private int height = 300 * 3 / 2;
     private Character character;
     private static Color bkd = Color.black;
-    DirectionThread left;
-    DirectionThread right;
-    DirectionThread up;
-    DirectionThread down;
+    DirectionThread directionThread;
 
 
     public Game() {
@@ -25,15 +22,8 @@ public class Game extends JPanel {
         myFrame.add(this);
         myFrame.setVisible(true);
 
-        left = new DirectionThread(character, 1, Directions.LEFT);
-        right = new DirectionThread(character, 1, Directions.RIGHT);
-        up = new DirectionThread(character, 1, Directions.UP);
-        down = new DirectionThread(character, 1, Directions.DOWN);
-
-        left.start();
-        right.start();
-        up.start();
-        down.start();
+        directionThread = new DirectionThread(character, 1);
+        directionThread.start();
 
         new Painter(this).start();
     }
@@ -42,16 +32,16 @@ public class Game extends JPanel {
 
         switch (a) {
             case LEFT:
-                left.enabled = pressed;
+                directionThread.leftEnabled = pressed;
                 break;
             case RIGHT:
-                right.enabled = pressed;
+                directionThread.rightEnabled = pressed;
                 break;
             case DOWN:
-                down.enabled = pressed;
+                directionThread.downEnabled = pressed;
                 break;
             case UP:
-                up.enabled = pressed;
+                directionThread.upEnabled = pressed;
                 break;
         }
     }
