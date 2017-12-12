@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Game extends JPanel {
     private int width = 400 * 3 / 2;
-    private int height = 600 * 3 / 2;
+    private int height = 300 * 3 / 2;
     private Character character;
     private static Color bkd = Color.black;
     DirectionThread left;
@@ -14,7 +14,7 @@ public class Game extends JPanel {
 
     public Game() {
         JFrame myFrame = new JFrame();
-        myFrame.setSize(height, width);
+        myFrame.setSize(width, height);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setResizable(false);
 
@@ -25,10 +25,10 @@ public class Game extends JPanel {
         myFrame.add(this);
         myFrame.setVisible(true);
 
-        left = new DirectionThread(character, 0, -1);
-        right = new DirectionThread(character, 0, 1);
-        up = new DirectionThread(character, 1, -1);
-        down = new DirectionThread(character, 1, 1);
+        left = new DirectionThread(character, 1, Directions.LEFT);
+        right = new DirectionThread(character, 1, Directions.RIGHT);
+        up = new DirectionThread(character, 1, Directions.UP);
+        down = new DirectionThread(character, 1, Directions.DOWN);
 
         left.start();
         right.start();
@@ -38,7 +38,7 @@ public class Game extends JPanel {
         new Painter(this).start();
     }
 
-    void handle(Arrows a, boolean pressed) {
+    void handle(Directions a, boolean pressed) {
 
         switch (a) {
             case LEFT:
@@ -58,7 +58,7 @@ public class Game extends JPanel {
 
     public void paintComponent(Graphics g) {
         g.setColor(bkd);
-        g.fillRect(0, 0, height, width);
+        g.fillRect(0, 0, width, height);
         g.drawImage(character.icon, character.getX(), character.getY(), null);
     }
 

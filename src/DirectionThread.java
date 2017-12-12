@@ -2,19 +2,19 @@ public class DirectionThread extends Thread {
     private int change;
     public boolean enabled = false;
     private Character character;
-    private int coordIndex;
+    private Directions direction;
 
-    public DirectionThread(Character character, int coordIndex, int change) {
+    public DirectionThread(Character character, int change, Directions direction) {
         this.change = change;
         this.character = character;
-        this.coordIndex = coordIndex;
+        this.direction = direction;
 
     }
 
     public void run() {
         while (true) {
             if (enabled) {
-                character.position[coordIndex] += change;
+                character.move(change, direction);
             }
             try {
                 Thread.sleep(10);

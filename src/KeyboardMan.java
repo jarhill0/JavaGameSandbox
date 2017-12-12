@@ -21,16 +21,16 @@ public class KeyboardMan extends KeyAdapter {
     private void pass(KeyEvent e, boolean pressed) {
 
         int key = e.getKeyCode();
-        Arrows arrow;
+        Directions arrow;
 
-        if (key == 37) {
-            arrow = Arrows.LEFT;
-        } else if (key == 39) {
-            arrow = Arrows.RIGHT;
-        } else if (key == 38) {
-            arrow = Arrows.UP;
-        } else if (key == 40) {
-            arrow = Arrows.DOWN;
+        if (key == 37 || key == 65) {
+            arrow = Directions.LEFT;
+        } else if (key == 39 || key == 68) {
+            arrow = Directions.RIGHT;
+        } else if (key == 38 || key == 87) {
+            arrow = Directions.UP;
+        } else if (key == 40 || key == 83) {
+            arrow = Directions.DOWN;
         } else {
             return;
         }
@@ -40,6 +40,6 @@ public class KeyboardMan extends KeyAdapter {
 
 }
 
-enum Arrows {
+enum Directions {
     LEFT, RIGHT, UP, DOWN
 }

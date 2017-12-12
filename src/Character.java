@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Character {
     public BufferedImage icon;
-    public int[] position = new int[2];
+    private int[] position = new int[2];
 
     public Character() {
         position[0] = 0;
@@ -36,4 +36,23 @@ public class Character {
     public int getY() {
         return position[1];
     }
+
+    public void move(int by, Directions d) {
+        switch (d) {
+            case RIGHT:
+                position[0] += by;
+                break;
+            case LEFT:
+                position[0] -= by;
+                break;
+            case DOWN:
+                position[1] += by;
+                break;
+            case UP:
+                position[1] -= by;
+                break;
+        }
+    }
+
+
 }
