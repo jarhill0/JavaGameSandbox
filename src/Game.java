@@ -1,26 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Game extends JPanel {
+class Game extends JPanel {
     private int width = 400 * 3 / 2;
     private int height = 300 * 3 / 2;
     private Character character;
     private static Color bkd = Color.black;
-    DirectionThread directionThread;
+    private DirectionThread directionThread;
+    boolean updated = true;
 
 
-    public Game() {
+    private Game() {
         JFrame myFrame = new JFrame();
-        myFrame.setSize(width, height);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myFrame.setResizable(false);
-
-        character = new Character(40, 40);
-
         myFrame.addKeyListener(new KeyboardMan(this));
-
         myFrame.add(this);
+        this.setPreferredSize(new Dimension(width, height));
+        myFrame.pack();
         myFrame.setVisible(true);
+
+        character = new Character(this);
 
         directionThread = new DirectionThread(character, 1);
         directionThread.start();
@@ -49,7 +50,8 @@ public class Game extends JPanel {
     public void paintComponent(Graphics g) {
         g.setColor(bkd);
         g.fillRect(0, 0, width, height);
-        g.drawImage(character.icon, character.getX(), character.getY(), null);
+        if (character != null)
+            g.drawImage(character.icon, character.getX(), character.getY(), null);
     }
 
     public static void main(String[] args) {

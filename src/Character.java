@@ -3,19 +3,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Character {
+class Character {
     public BufferedImage icon;
     private int[] position = new int[2];
+    private int width, height;
+    private Game game;
 
-    public Character() {
+    public Character(Game game) {
         position[0] = 0;
         position[1] = 0;
+        this.width = game.getWidth();
+        this.height = game.getHeight();
+        this.game = game;
         getImage();
     }
 
-    public Character(int x, int y) {
+    public Character(Game game, int x, int y) {
         position[0] = x;
         position[1] = y;
+        this.width = game.getWidth();
+        this.height = game.getHeight();
+        this.game = game;
         getImage();
     }
 
@@ -38,6 +46,8 @@ public class Character {
     }
 
     public void move(int by, Directions d) {
+        game.updated = true;
+
         switch (d) {
             case RIGHT:
                 position[0] += by;
@@ -51,6 +61,19 @@ public class Character {
             case UP:
                 position[1] -= by;
                 break;
+        }
+
+        if (position[0] + icon.getWidth() > width) {
+            position[0] = width - icon.getWidth();
+        } else if (position[0] < 0) {
+            position[0] = 0;
+        }
+
+
+        if (position[1] + icon.getHeight() > height) {
+            position[1] = height - icon.getHeight();
+        } else if (position[1] < 0) {
+            position[1] = 0;
         }
     }
 

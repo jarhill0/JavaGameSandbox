@@ -1,8 +1,8 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyboardMan extends KeyAdapter {
-    Game parent;
+class KeyboardMan extends KeyAdapter {
+    private Game parent;
 
     KeyboardMan(Game parent) {
         this.parent = parent;

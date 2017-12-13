@@ -1,4 +1,5 @@
-public class DirectionThread extends Thread {
+@SuppressWarnings("InfiniteLoopStatement")
+class DirectionThread extends Thread {
     private int change;
     private Character character;
 
@@ -33,7 +34,7 @@ public class DirectionThread extends Thread {
             }
             try {
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }

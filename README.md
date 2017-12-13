@@ -6,5 +6,5 @@ Currently I have built a working prototype. All you can do is move a sprite arou
 
 ## Todo:
 
-- Prevent the character from leaving the bounds of the game window
+- ~~Prevent the character from leaving the bounds of the game window~~
 - Add more realistic acceleration, rather than forcing the character to max velocity immediately.
