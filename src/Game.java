@@ -5,7 +5,7 @@ class Game extends JPanel {
     private int width = 400 * 3 / 2;
     private int height = 300 * 3 / 2;
     private Character character;
-    private static Color bkd = Color.black;
+    private static Color bkd = Color.lightGray;
     private DirectionThread directionThread;
     boolean updated = true;
 
