@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 class Character {
-    public BufferedImage icon;
+    BufferedImage icon;
     private double[] position = new double[2];
     private Game game;
     private Vector velocity = new Vector();
 
-    public Character(Game game) {
+    Character(Game game) {
         position[0] = 0;
         position[1] = 0;
         this.game = game;
@@ -33,11 +33,11 @@ class Character {
         }
     }
 
-    public int getX() {
+    int getX() {
         return (int) position[0];
     }
 
-    public int getY() {
+    int getY() {
         return (int) position[1];
     }
 
@@ -51,20 +51,22 @@ class Character {
         int width = game.getWidth();
         int height = game.getHeight();
 
+        double bounciness = 0.1;
+
         if (position[0] + icon.getWidth() > width) {
-            velocity = Vector.verticalVector(velocity.getY());
+            velocity = velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX())); // The 1 cancels out the current velocity
             position[0] = width - icon.getWidth();
         } else if (position[0] < 0) {
-            velocity = Vector.verticalVector(velocity.getY());
+            velocity = velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX()));
             position[0] = 0;
         }
 
 
         if (position[1] + icon.getHeight() > height) {
-            velocity = Vector.horizontalVector(velocity.getX());
+            velocity = velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
             position[1] = height - icon.getHeight();
         } else if (position[1] < 0) {
-            velocity = Vector.horizontalVector(velocity.getX());
+            velocity = velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
             position[1] = 0;
         }
     }
