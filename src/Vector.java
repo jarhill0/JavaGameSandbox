@@ -1,4 +1,4 @@
-public class Vector {
+ class Vector {
     private double magnitude, direction; // direction is in radians
     static Vector ZERO = new Vector();
 
@@ -6,7 +6,7 @@ public class Vector {
         magnitude = direction = 0;
     }
 
-    Vector(double magnitude, double direction) {
+    private Vector(double magnitude, double direction) {
         if (magnitude < 0) {
             this.magnitude = -magnitude;
             setDirection(direction + Math.PI);
@@ -19,7 +19,7 @@ public class Vector {
         }
     }
 
-    Vector(double[] coords) {
+    private Vector(double[] coords) {
         if (coords.length != 2) {
             // invalid, just give a normal 0 vector. kinda dumb.
             magnitude = direction = 0;
@@ -61,6 +61,15 @@ public class Vector {
         coords[1] = y;
 
         return new Vector(coords);
+    }
+
+    void shortenInPlace(double by) {
+        if (by == 0) {
+            direction = 0;
+        } else if (by < 0) {
+            setDirection(direction + 180);
+        }
+        magnitude *= by;
     }
 
     private void print() {

@@ -8,6 +8,7 @@ class Game extends JPanel {
     private static Color bkd = Color.lightGray;
     private ArrowRepeater arrowRepeater;
     private Inertia inertia;
+    private Friction friction;
 
 
     private Game() {
@@ -24,6 +25,8 @@ class Game extends JPanel {
         character = new Character(this);
         inertia = new Inertia(character);
         inertia.start();
+        friction = new Friction(character);
+        friction.start();
 
         arrowRepeater = new ArrowRepeater(character, 0.05);
         arrowRepeater.start();

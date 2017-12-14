@@ -92,5 +92,9 @@ class Character {
         velocity = velocity.add(a);
     }
 
+    void frict() {
+        velocity.shortenInPlace(0.995);
+    }
+
 
 }
