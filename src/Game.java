@@ -28,7 +28,7 @@ class Game extends JPanel {
         friction = new Friction(character);
         friction.start();
 
-        arrowRepeater = new ArrowRepeater(character, 0.05);
+        arrowRepeater = new ArrowRepeater(character, 0.07);
         arrowRepeater.start();
 
         new Painter(this).start();
