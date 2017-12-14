@@ -10,3 +10,4 @@ Currently I have built a working prototype. All you can do is move a sprite arou
 - ~~Add more realistic acceleration, rather than forcing the character to max velocity immediately.~~
 - Add a max velocity
 - ~~Wall collisions should set that component of velocity to 0.~~
+- Add friction?
