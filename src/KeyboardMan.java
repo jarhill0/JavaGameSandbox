@@ -22,19 +22,23 @@ class KeyboardMan extends KeyAdapter {
 
         int key = e.getKeyCode();
         Directions arrow;
+        WhichChar character;
 
-        if (key == 37 || key == 65) {
+        character = (key >= 73 && key <= 76) ? WhichChar.SECONDARY : WhichChar.MAIN;
+        if (key == 37 || key == 65 || key == 74) {
             arrow = Directions.LEFT;
-        } else if (key == 39 || key == 68) {
+        } else if (key == 39 || key == 68 || key == 76) {
             arrow = Directions.RIGHT;
-        } else if (key == 38 || key == 87) {
+        } else if (key == 38 || key == 87 || key == 73) {
             arrow = Directions.UP;
-        } else if (key == 40 || key == 83) {
+        } else if (key == 40 || key == 83 || key == 75) {
             arrow = Directions.DOWN;
         } else {
             return;
         }
-        parent.handle(arrow, pressed);
+
+
+        parent.handle(arrow, pressed, character);
 
     }
 
@@ -42,4 +46,8 @@ class KeyboardMan extends KeyAdapter {
 
 enum Directions {
     LEFT, RIGHT, UP, DOWN
+}
+
+enum WhichChar {
+    MAIN, SECONDARY
 }

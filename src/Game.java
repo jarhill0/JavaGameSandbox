@@ -5,10 +5,10 @@ class Game extends JPanel {
     private static int initialWidth = 400 * 3 / 2;
     private static int initialHeight = 300 * 3 / 2;
     private Character character;
+    private Character secondaryCharacter;
     private static Color bkd = Color.lightGray;
     private ArrowRepeater arrowRepeater;
-    private Inertia inertia;
-    private Friction friction;
+    private ArrowRepeater secondaryArrowRepeater;
 
 
     private Game() {
@@ -23,31 +23,43 @@ class Game extends JPanel {
         myFrame.setVisible(true);
 
         character = new Character(this);
-        inertia = new Inertia(character);
-        inertia.start();
-        friction = new Friction(character);
-        friction.start();
+        character.startPhysics();
+        secondaryCharacter = new Character(this);
+        secondaryCharacter.startPhysics();
 
-        arrowRepeater = new ArrowRepeater(character, 0.07);
+        arrowRepeater = new ArrowRepeater(character, 0.06);
         arrowRepeater.start();
+        secondaryArrowRepeater = new ArrowRepeater(secondaryCharacter, 0.06);
+        secondaryArrowRepeater.start();
 
         new Painter(this).start();
     }
 
-    void handle(Directions a, boolean pressed) {
+    void handle(Directions a, boolean pressed, WhichChar whichChar) {
+
+        ArrowRepeater repeater = null;
+
+        switch (whichChar) {
+            case MAIN:
+                repeater = arrowRepeater;
+                break;
+            case SECONDARY:
+                repeater = secondaryArrowRepeater;
+                break;
+        }
 
         switch (a) {
             case LEFT:
-                arrowRepeater.leftEnabled = pressed;
+                repeater.leftEnabled = pressed;
                 break;
             case RIGHT:
-                arrowRepeater.rightEnabled = pressed;
+                repeater.rightEnabled = pressed;
                 break;
             case DOWN:
-                arrowRepeater.downEnabled = pressed;
+                repeater.downEnabled = pressed;
                 break;
             case UP:
-                arrowRepeater.upEnabled = pressed;
+                repeater.upEnabled = pressed;
                 break;
         }
     }
@@ -57,6 +69,9 @@ class Game extends JPanel {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         if (character != null)
             g.drawImage(character.icon, character.getX(), character.getY(), null);
+        if (secondaryCharacter != null)
+            g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
+
     }
 
     public static void main(String[] args) {

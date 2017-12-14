@@ -8,19 +8,16 @@ class Character {
     private double[] position = new double[2];
     private Game game;
     private Vector velocity = new Vector();
+    private Inertia inertia;
+    private Friction friction;
 
     Character(Game game) {
         position[0] = 0;
         position[1] = 0;
         this.game = game;
         getImage();
-    }
-
-    public Character(Game game, int x, int y) {
-        position[0] = x;
-        position[1] = y;
-        this.game = game;
-        getImage();
+        inertia = new Inertia(this);
+        friction = new Friction(this);
     }
 
     private void getImage() {
@@ -94,6 +91,11 @@ class Character {
 
     void frict() {
         velocity.shortenInPlace(0.995);
+    }
+
+    void startPhysics() {
+        inertia.start();
+        friction.start();
     }
 
 
