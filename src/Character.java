@@ -52,15 +52,19 @@ class Character {
         int height = game.getHeight();
 
         if (position[0] + icon.getWidth() > width) {
+            velocity = Vector.verticalVector(velocity.getY());
             position[0] = width - icon.getWidth();
         } else if (position[0] < 0) {
+            velocity = Vector.verticalVector(velocity.getY());
             position[0] = 0;
         }
 
 
         if (position[1] + icon.getHeight() > height) {
+            velocity = Vector.horizontalVector(velocity.getX());
             position[1] = height - icon.getHeight();
         } else if (position[1] < 0) {
+            velocity = Vector.horizontalVector(velocity.getX());
             position[1] = 0;
         }
     }
