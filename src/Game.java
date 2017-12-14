@@ -6,8 +6,8 @@ class Game extends JPanel {
     private static int initialHeight = 300 * 3 / 2;
     private Character character;
     private static Color bkd = Color.lightGray;
-    private DirectionThread directionThread;
-    boolean updated = true;
+    private ArrowRepeater arrowRepeater;
+    private Inertia inertia;
 
 
     private Game() {
@@ -22,9 +22,11 @@ class Game extends JPanel {
         myFrame.setVisible(true);
 
         character = new Character(this);
+        inertia = new Inertia(character);
+        inertia.start();
 
-        directionThread = new DirectionThread(character, 1);
-        directionThread.start();
+        arrowRepeater = new ArrowRepeater(character, 0.05);
+        arrowRepeater.start();
 
         new Painter(this).start();
     }
@@ -33,16 +35,16 @@ class Game extends JPanel {
 
         switch (a) {
             case LEFT:
-                directionThread.leftEnabled = pressed;
+                arrowRepeater.leftEnabled = pressed;
                 break;
             case RIGHT:
-                directionThread.rightEnabled = pressed;
+                arrowRepeater.rightEnabled = pressed;
                 break;
             case DOWN:
-                directionThread.downEnabled = pressed;
+                arrowRepeater.downEnabled = pressed;
                 break;
             case UP:
-                directionThread.upEnabled = pressed;
+                arrowRepeater.upEnabled = pressed;
                 break;
         }
     }

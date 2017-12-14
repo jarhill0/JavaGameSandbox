@@ -9,11 +9,7 @@ class Painter extends Thread {
 
     public void run() {
         while (true) {
-            if (game.updated) {
-                game.repaint();
-                game.updated = false;
-            }
-
+            game.repaint();
             try {
                 long frameDelay = 1000 / 60; // 60 FPS :D
                 Thread.sleep(frameDelay);

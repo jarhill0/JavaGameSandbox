@@ -5,8 +5,9 @@ import java.io.IOException;
 
 class Character {
     public BufferedImage icon;
-    private int[] position = new int[2];
+    private double[] position = new double[2];
     private Game game;
+    private Vector velocity = new Vector();
 
     public Character(Game game) {
         position[0] = 0;
@@ -33,31 +34,20 @@ class Character {
     }
 
     public int getX() {
-        return position[0];
+        return (int) position[0];
     }
 
     public int getY() {
-        return position[1];
+        return (int) position[1];
     }
 
-    public void move(int by, Directions d) {
-        game.updated = true;
+    void step() {
+        position[0] += velocity.getX();
+        position[1] += velocity.getY();
+        constrainToWindow();
+    }
 
-        switch (d) {
-            case RIGHT:
-                position[0] += by;
-                break;
-            case LEFT:
-                position[0] -= by;
-                break;
-            case DOWN:
-                position[1] += by;
-                break;
-            case UP:
-                position[1] -= by;
-                break;
-        }
-
+    private void constrainToWindow() {
         int width = game.getWidth();
         int height = game.getHeight();
 
@@ -73,6 +63,27 @@ class Character {
         } else if (position[1] < 0) {
             position[1] = 0;
         }
+    }
+
+
+    void accelerate(double by, Directions d) {
+        Vector a = null;
+        switch (d) {
+            case RIGHT:
+                a = Vector.horizontalVector(by);
+                break;
+            case LEFT:
+                a = Vector.horizontalVector(-by);
+                break;
+            case DOWN:
+                a = Vector.verticalVector(by);
+                break;
+            case UP:
+                a = Vector.verticalVector(-by);
+                break;
+        }
+
+        velocity = velocity.add(a);
     }
 
 

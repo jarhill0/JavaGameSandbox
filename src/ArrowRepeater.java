@@ -1,6 +1,6 @@
 @SuppressWarnings("InfiniteLoopStatement")
-class DirectionThread extends Thread {
-    private int change;
+class ArrowRepeater extends Thread {
+    private double change;
     private Character character;
 
     public boolean leftEnabled = false;
@@ -9,7 +9,7 @@ class DirectionThread extends Thread {
     public boolean upEnabled = false;
 
 
-    public DirectionThread(Character character, int change) {
+    public ArrowRepeater(Character character, double change) {
         this.change = change;
         this.character = character;
 
@@ -20,17 +20,17 @@ class DirectionThread extends Thread {
             if (leftEnabled != rightEnabled) {
                 // prevent jittery motion if they're both enabled.
                 if (leftEnabled)
-                    character.move(change, Directions.LEFT);
+                    character.accelerate(change, Directions.LEFT);
                 else
-                    character.move(change, Directions.RIGHT);
+                    character.accelerate(change, Directions.RIGHT);
             }
 
             if (upEnabled != downEnabled) {
                 // prevent jittery motion if they're both enabled.
                 if (downEnabled)
-                    character.move(change, Directions.DOWN);
+                    character.accelerate(change, Directions.DOWN);
                 else
-                    character.move(change, Directions.UP);
+                    character.accelerate(change, Directions.UP);
             }
             try {
                 Thread.sleep(10);
