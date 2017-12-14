@@ -69,28 +69,31 @@ class Character {
     }
 
 
-    void accelerate(double by, Directions d) {
+    void accelerate(double mag, boolean right, boolean left, boolean down, boolean up) {
         Vector a = null;
-        switch (d) {
-            case RIGHT:
-                a = Vector.horizontalVector(by);
-                break;
-            case LEFT:
-                a = Vector.horizontalVector(-by);
-                break;
-            case DOWN:
-                a = Vector.verticalVector(by);
-                break;
-            case UP:
-                a = Vector.verticalVector(-by);
-                break;
+        if (right == left && down == up) {
+            // no "active" arrows; no acceleration
+            return;
+        } else if (right == left) { // down != up
+            a = Vector.verticalVector(mag * (down ? 1 : -1));
+        } else if (up == down) {
+            a = Vector.horizontalVector(mag * (right ? 1 : -1));
+        } else {
+            if (right && down)
+                a = new Vector(mag, Vector.EIGHTH);
+            if (left && down)
+                a = new Vector(mag, 3 * Vector.EIGHTH);
+            if (right && up)
+                a = new Vector(mag, -Vector.EIGHTH);
+            if (left && up)
+                a = new Vector(mag, -3 * Vector.EIGHTH);
         }
 
         velocity = velocity.add(a);
     }
 
     void frict() {
-        velocity.shortenInPlace(0.995);
+        velocity.shortenInPlace(0.99);
     }
 
     void startPhysics() {

@@ -1,12 +1,13 @@
- class Vector {
+class Vector {
     private double magnitude, direction; // direction is in radians
     static Vector ZERO = new Vector();
+    static double EIGHTH = Math.PI / 4;
 
     Vector() {
         magnitude = direction = 0;
     }
 
-    private Vector(double magnitude, double direction) {
+    Vector(double magnitude, double direction) {
         if (magnitude < 0) {
             this.magnitude = -magnitude;
             setDirection(direction + Math.PI);
