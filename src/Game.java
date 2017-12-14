@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 class Game extends JPanel {
-    private int width = 400 * 3 / 2;
-    private int height = 300 * 3 / 2;
+    private static int initialWidth = 400 * 3 / 2;
+    private static int initialHeight = 300 * 3 / 2;
     private Character character;
     private static Color bkd = Color.lightGray;
     private DirectionThread directionThread;
@@ -14,10 +14,10 @@ class Game extends JPanel {
         JFrame myFrame = new JFrame();
 
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        myFrame.setResizable(false);
+        myFrame.setResizable(true);
         myFrame.addKeyListener(new KeyboardMan(this));
         myFrame.add(this);
-        this.setPreferredSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(initialWidth, initialHeight));
         myFrame.pack();
         myFrame.setVisible(true);
 
@@ -49,7 +49,7 @@ class Game extends JPanel {
 
     public void paintComponent(Graphics g) {
         g.setColor(bkd);
-        g.fillRect(0, 0, width, height);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
         if (character != null)
             g.drawImage(character.icon, character.getX(), character.getY(), null);
     }

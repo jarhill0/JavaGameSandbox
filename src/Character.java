@@ -6,14 +6,11 @@ import java.io.IOException;
 class Character {
     public BufferedImage icon;
     private int[] position = new int[2];
-    private int width, height;
     private Game game;
 
     public Character(Game game) {
         position[0] = 0;
         position[1] = 0;
-        this.width = game.getWidth();
-        this.height = game.getHeight();
         this.game = game;
         getImage();
     }
@@ -21,8 +18,6 @@ class Character {
     public Character(Game game, int x, int y) {
         position[0] = x;
         position[1] = y;
-        this.width = game.getWidth();
-        this.height = game.getHeight();
         this.game = game;
         getImage();
     }
@@ -62,6 +57,9 @@ class Character {
                 position[1] -= by;
                 break;
         }
+
+        int width = game.getWidth();
+        int height = game.getHeight();
 
         if (position[0] + icon.getWidth() > width) {
             position[0] = width - icon.getWidth();
