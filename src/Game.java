@@ -22,9 +22,9 @@ class Game extends JPanel {
         myFrame.pack();
         myFrame.setVisible(true);
 
-        character = new Character(this);
+        character = new Character(this, "WASD.png");
         character.startPhysics();
-        secondaryCharacter = new Character(this);
+        secondaryCharacter = new Character(this, "IJKL.png");
         secondaryCharacter.startPhysics();
 
         arrowRepeater = new ArrowRepeater(character, 0.06);

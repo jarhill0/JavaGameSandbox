@@ -11,18 +11,18 @@ class Character {
     private Inertia inertia;
     private Friction friction;
 
-    Character(Game game) {
+    Character(Game game, String iconName) {
         position[0] = 0;
         position[1] = 0;
         this.game = game;
-        getImage();
+        getImage(iconName);
         inertia = new Inertia(this);
         friction = new Friction(this);
     }
 
-    private void getImage() {
+    private void getImage(String iconName) {
         try {
-            File file = new File(new File(System.getProperty("user.dir"), "src"), "icon.png");
+            File file = new File(new File(System.getProperty("user.dir"), "src"), iconName);
             icon = ImageIO.read(file);
         } catch (IOException e) {
             System.out.println("Couldn't get image");
