@@ -11,4 +11,4 @@ Currently I have built a working prototype. All you can do is move a sprite arou
 - ~~Add a max velocity~~
 - ~~Wall collisions should set that component of velocity to 0.~~
 - ~~Add friction?~~
-- Add player collision
+- ~~Add player collision~~

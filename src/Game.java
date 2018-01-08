@@ -24,7 +24,7 @@ class Game extends JPanel {
 
         character = new Character(this, "WASD.png");
         character.startPhysics();
-        secondaryCharacter = new Character(this, "IJKL.png");
+        secondaryCharacter = new Character(this, "IJKL.png", initialWidth, initialHeight);
         secondaryCharacter.startPhysics();
 
         arrowRepeater = new ArrowRepeater(character, 0.06);
@@ -65,13 +65,19 @@ class Game extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        g.setColor(bkd);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        if (character != null)
-            g.drawImage(character.icon, character.getX(), character.getY(), null);
-        if (secondaryCharacter != null)
-            g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
+        if (character != null) {
+            if (secondaryCharacter != null) {
+                if (!character.isColliding(secondaryCharacter)) {
+                    g.setColor(bkd);
+                } else {
+                    g.setColor(Color.YELLOW);
 
+                }
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
+            }
+            g.drawImage(character.icon, character.getX(), character.getY(), null);
+        }
     }
 
     public static void main(String[] args) {

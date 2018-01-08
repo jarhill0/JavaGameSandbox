@@ -12,8 +12,19 @@ class Character {
     private Friction friction;
 
     Character(Game game, String iconName) {
+        // The method isColliding assumes the image is a 50x50px image. Deal with it.
         position[0] = 0;
         position[1] = 0;
+        this.game = game;
+        getImage(iconName);
+        inertia = new Inertia(this);
+        friction = new Friction(this);
+    }
+
+    Character(Game game, String iconName, int x, int y) {
+        // The method isColliding assumes the image is a 50x50px image. Deal with it.
+        position[0] = x;
+        position[1] = y;
         this.game = game;
         getImage(iconName);
         inertia = new Inertia(this);
@@ -101,5 +112,19 @@ class Character {
         friction.start();
     }
 
+    boolean isColliding(Character c) {
+        return isColliding(c.getX(), c.getY());
+    }
+
+    boolean isColliding(int x, int y) {
+        // This method assumes that the coordinates represent the centers of each circular sprite.
+        // This assumption is false, but the math works out because the error is cancelled out.
+
+        int distanceX = getX() - x;
+        int distanceY = getY() - y;
+        double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        return distance < 50; // diameter
+    }
 
 }
