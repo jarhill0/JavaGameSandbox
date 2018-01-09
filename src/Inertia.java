@@ -15,3 +15,4 @@ public class Inertia extends Thread {
         }
     }
 }
+
