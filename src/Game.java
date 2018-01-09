@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 class Game extends JPanel {
     private static int initialWidth = 400 * 3 / 2;
     private static int initialHeight = 300 * 3 / 2;
