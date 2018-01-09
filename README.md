@@ -2,7 +2,7 @@
 
 I'm just messing around with building a "game" in Java.
 
-Currently I have built a working prototype. All you can do is move a sprite around using the arrow keys (and the game will move at a constant rate while the arrowkey is held down, rather than waiting for keydown events).
+Currently I have built a working prototype.
 
 ## Todo:
 
