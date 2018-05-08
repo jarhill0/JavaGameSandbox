@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 class Character {
@@ -24,8 +23,7 @@ class Character {
 
     private void getImage(String iconName) {
         try {
-            File file = new File(new File(System.getProperty("user.dir"), "src"), iconName);
-            icon = ImageIO.read(file);
+            icon = ImageIO.read(getClass().getResource("/" + iconName));
         } catch (IOException e) {
             System.out.println("Couldn't get image");
             System.exit(1);
