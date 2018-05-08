@@ -1,39 +1,45 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-
+// Main class
 class Game extends JPanel {
-    private static int initialWidth = 400 * 3 / 2;
-    private static int initialHeight = 300 * 3 / 2;
-    private Character character;
+    private Character primaryCharacter;
     private Character secondaryCharacter;
-    private static Color bkd = Color.lightGray;
-    private ArrowRepeater arrowRepeater;
+    private static Color backgroundDefault = Color.lightGray;
+    private static Color backgroundHighlight = Color.yellow;
+    private ArrowRepeater primaryArrowRepeater;
     private ArrowRepeater secondaryArrowRepeater;
 
 
+    // Construct and start a game.
     private Game() {
-        JFrame myFrame = new JFrame();
+        int initialWidth = 400 * 3 / 2;
+        int initialHeight = 300 * 3 / 2;
 
+        // Configure window
+        JFrame myFrame = new JFrame();
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myFrame.setResizable(true);
-        myFrame.addKeyListener(new KeyboardMan(this));
         myFrame.add(this);
         this.setPreferredSize(new Dimension(initialWidth, initialHeight));
         myFrame.pack();
         myFrame.setVisible(true);
 
-        character = new Character(this, "WASD.png");
-        character.startPhysics();
-        secondaryCharacter = new Character(this, "IJKL.png", initialWidth, initialHeight);
-        secondaryCharacter.startPhysics();
+        myFrame.addKeyListener(new KeyboardMan(this));
 
-        arrowRepeater = new ArrowRepeater(character, 0.06);
-        arrowRepeater.start();
+        primaryCharacter = new Character(this, "WASD.png");
+        secondaryCharacter = new Character(this, "IJKL.png", initialWidth, initialHeight);
+        ArrayList<Character> characters = new ArrayList<Character>(2);
+        characters.add(primaryCharacter);
+        characters.add(secondaryCharacter);
+
+        primaryArrowRepeater = new ArrowRepeater(primaryCharacter, 0.06);
         secondaryArrowRepeater = new ArrowRepeater(secondaryCharacter, 0.06);
+        primaryArrowRepeater.start();
         secondaryArrowRepeater.start();
 
-        new Painter(this).start();
+        new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
     }
 
     void handle(Directions a, boolean pressed, WhichChar whichChar) {
@@ -42,7 +48,7 @@ class Game extends JPanel {
 
         switch (whichChar) {
             case MAIN:
-                repeater = arrowRepeater;
+                repeater = primaryArrowRepeater;
                 break;
             case SECONDARY:
                 repeater = secondaryArrowRepeater;
@@ -66,19 +72,20 @@ class Game extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        if (character != null) {
-            if (secondaryCharacter != null) {
-                if (!character.isColliding(secondaryCharacter)) {
-                    g.setColor(bkd);
-                } else {
-                    g.setColor(Color.YELLOW);
+        if (primaryCharacter == null || secondaryCharacter == null)
+            return;
 
-                }
-                g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
-            }
-            g.drawImage(character.icon, character.getX(), character.getY(), null);
-        }
+        if (!primaryCharacter.isColliding(secondaryCharacter))
+            g.setColor(backgroundDefault);
+        else
+            g.setColor(backgroundHighlight);
+
+        g.fillRect(0, 0, this.getWidth(), this.getHeight()); // fill the screen with the background color
+
+        // Paint characters
+        g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
+        g.drawImage(primaryCharacter.icon, primaryCharacter.getX(), primaryCharacter.getY(), null);
+
     }
 
     public static void main(String[] args) {

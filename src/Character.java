@@ -8,17 +8,10 @@ class Character {
     private double[] position = new double[2];
     private Game game;
     private Vector velocity = new Vector();
-    private Inertia inertia;
-    private Friction friction;
 
     Character(Game game, String iconName) {
         // The method isColliding assumes the image is a 50x50px image. Deal with it.
-        position[0] = 0;
-        position[1] = 0;
-        this.game = game;
-        getImage(iconName);
-        inertia = new Inertia(this);
-        friction = new Friction(this);
+        this(game, iconName, 0, 0);
     }
 
     Character(Game game, String iconName, int x, int y) {
@@ -27,8 +20,6 @@ class Character {
         position[1] = y;
         this.game = game;
         getImage(iconName);
-        inertia = new Inertia(this);
-        friction = new Friction(this);
     }
 
     private void getImage(String iconName) {
@@ -41,45 +32,71 @@ class Character {
         }
     }
 
+    /*
+
+    For both getX() and getY():
+
+    Location is stored at decimal precision but returned in int precision because we can only paint to integer
+    coordinates, and I'm not about to get into antialiasing stuff.
+
+    */
+
     int getX() {
-        return (int) position[0];
+        return round(position[0]);
     }
 
     int getY() {
-        return (int) position[1];
+        return round(position[1]);
+    }
+
+    private static int round(double num) {
+        return num % 1 < 0.5 ? (int) num : (int) num + 1;
     }
 
     void step() {
         position[0] += velocity.getX();
         position[1] += velocity.getY();
         constrainToWindow();
+        frict();
     }
 
+
+    // Make sure the character isn't off the edge of the window and handle bounce-back.
     private void constrainToWindow() {
         int width = game.getWidth();
         int height = game.getHeight();
 
         double bounciness = 0.1;
 
-        if (position[0] + icon.getWidth() > width) {
-            velocity = velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX())); // The 1 cancels out the current velocity
-            position[0] = width - icon.getWidth();
-        } else if (position[0] < 0) {
-            velocity = velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX()));
-            position[0] = 0;
+        if (position[0] + icon.getWidth() > width) { // if we're off the right edge
+            // Bounce our x-velocity back. For example, (-1.1 * 3 px/s) + (3 px/s) results in a velocity of -0.3 px/s
+            velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX())); // The 1 cancels out the current velocity
+            position[0] = width - icon.getWidth(); // push back from the wall
+        } else if (position[0] < 0) { // if we're off the left edge
+            // // Bounce our x-velocity back
+            velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX()));
+            position[0] = 0; // push back from the wall
         }
 
+        // same as above, only for the top and bottom edges
 
         if (position[1] + icon.getHeight() > height) {
-            velocity = velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
+            velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
             position[1] = height - icon.getHeight();
         } else if (position[1] < 0) {
-            velocity = velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
+            velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
             position[1] = 0;
         }
     }
 
 
+    // Acceleration is an "all or nothing" thing -- no partial acceleration. Thus, up and down cancel out.
+    //
+    // In practice, mag is a constant supplied from outside this function.
+    //
+    // Note: This is not TagPro-style acceleration. That is to say, accelerating down and right at the same time gives
+    // the same magnitude of acceleration as accelerating right only. In other words, if a character is already
+    // accelerating right, starting to accelerate up at the same time reduces the x-acceleration.
     void accelerate(double mag, boolean right, boolean left, boolean down, boolean up) {
         Vector a = null;
         if (right == left && down == up) {
@@ -91,7 +108,7 @@ class Character {
             a = Vector.horizontalVector(mag * (right ? 1 : -1));
         } else {
             if (right && down)
-                a = new Vector(mag, Vector.EIGHTH);
+                a = new Vector(mag, Vector.EIGHTH); // 45-deg with specified magnitude
             if (left && down)
                 a = new Vector(mag, 3 * Vector.EIGHTH);
             if (right && up)
@@ -100,16 +117,14 @@ class Character {
                 a = new Vector(mag, -3 * Vector.EIGHTH);
         }
 
-        velocity = velocity.add(a);
+        velocity.add(a); // update the velocity
     }
 
-    void frict() {
-        velocity.shortenInPlace(0.99);
-    }
-
-    void startPhysics() {
-        inertia.start();
-        friction.start();
+    private void frict() {
+        // slowly reduces the velocity of the character proportionally to velocity.
+        // idk whether this is accurate to real world physics
+        // I don't think so, because this also has the (nice) side effect of capping a maximum velocity
+        velocity.shortenInPlace(0.993);
     }
 
     boolean isColliding(Character c) {

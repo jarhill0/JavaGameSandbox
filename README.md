@@ -12,3 +12,4 @@ Currently I have built a working prototype.
 - ~~Wall collisions should set that component of velocity to 0.~~
 - ~~Add friction?~~
 - ~~Add player collision~~
+- Highlight location of collision
