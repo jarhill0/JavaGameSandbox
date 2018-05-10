@@ -8,8 +8,6 @@ class Game extends JPanel {
     private Character secondaryCharacter;
     private static Color backgroundDefault = Color.lightGray;
     private static Color backgroundHighlight = Color.yellow;
-    private ArrowRepeater primaryArrowRepeater;
-    private ArrowRepeater secondaryArrowRepeater;
 
 
     // Construct and start a game.
@@ -26,49 +24,15 @@ class Game extends JPanel {
         myFrame.pack();
         myFrame.setVisible(true);
 
-        myFrame.addKeyListener(new KeyboardMan(this));
-
         primaryCharacter = new Character(this, "WASD.png");
         secondaryCharacter = new Character(this, "IJKL.png", initialWidth, initialHeight);
         ArrayList<Character> characters = new ArrayList<Character>(2);
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
 
-        primaryArrowRepeater = new ArrowRepeater(primaryCharacter, 0.06);
-        secondaryArrowRepeater = new ArrowRepeater(secondaryCharacter, 0.06);
-        primaryArrowRepeater.start();
-        secondaryArrowRepeater.start();
+        myFrame.addKeyListener(new KeyboardHandler(characters));
 
         new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
-    }
-
-    void handle(Directions a, boolean pressed, WhichChar whichChar) {
-
-        ArrowRepeater repeater = null;
-
-        switch (whichChar) {
-            case MAIN:
-                repeater = primaryArrowRepeater;
-                break;
-            case SECONDARY:
-                repeater = secondaryArrowRepeater;
-                break;
-        }
-
-        switch (a) {
-            case LEFT:
-                repeater.leftEnabled = pressed;
-                break;
-            case RIGHT:
-                repeater.rightEnabled = pressed;
-                break;
-            case DOWN:
-                repeater.downEnabled = pressed;
-                break;
-            case UP:
-                repeater.upEnabled = pressed;
-                break;
-        }
     }
 
     public void paintComponent(Graphics g) {

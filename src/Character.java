@@ -8,6 +8,14 @@ class Character {
     private Game game;
     private Vector velocity = new Vector();
 
+    private static double acceleration = 0.22;
+
+    // remember which keys are being pressed
+    private boolean down = false;
+    private boolean up = false;
+    private boolean left = false;
+    private boolean right = false;
+
     Character(Game game, String iconName) {
         // The method isColliding assumes the image is a 50x50px image. Deal with it.
         this(game, iconName, 0, 0);
@@ -52,6 +60,10 @@ class Character {
     }
 
     void step() {
+        // integrate acceleration -> velocity
+        accelerate();
+
+        // integrate velocity -> position
         position[0] += velocity.getX();
         position[1] += velocity.getY();
         constrainToWindow();
@@ -95,24 +107,24 @@ class Character {
     // Note: This is not TagPro-style acceleration. That is to say, accelerating down and right at the same time gives
     // the same magnitude of acceleration as accelerating right only. In other words, if a character is already
     // accelerating right, starting to accelerate up at the same time reduces the x-acceleration.
-    void accelerate(double mag, boolean right, boolean left, boolean down, boolean up) {
+    void accelerate() {
         Vector a = null;
         if (right == left && down == up) {
             // no "active" arrows; no acceleration
             return;
         } else if (right == left) { // down != up
-            a = Vector.verticalVector(mag * (down ? 1 : -1));
+            a = Vector.verticalVector(acceleration * (down ? 1 : -1));
         } else if (up == down) {
-            a = Vector.horizontalVector(mag * (right ? 1 : -1));
+            a = Vector.horizontalVector(acceleration * (right ? 1 : -1));
         } else {
             if (right && down)
-                a = new Vector(mag, Vector.EIGHTH); // 45-deg with specified magnitude
+                a = new Vector(acceleration, Vector.EIGHTH); // 45-deg with specified magnitude
             if (left && down)
-                a = new Vector(mag, 3 * Vector.EIGHTH);
+                a = new Vector(acceleration, 3 * Vector.EIGHTH);
             if (right && up)
-                a = new Vector(mag, -Vector.EIGHTH);
+                a = new Vector(acceleration, -Vector.EIGHTH);
             if (left && up)
-                a = new Vector(mag, -3 * Vector.EIGHTH);
+                a = new Vector(acceleration, -3 * Vector.EIGHTH);
         }
 
         velocity.add(a); // update the velocity
@@ -139,6 +151,23 @@ class Character {
 
         return distance < 50; // diameter
     }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
 
 }
 
