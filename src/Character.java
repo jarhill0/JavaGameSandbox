@@ -102,12 +102,10 @@ class Character {
 
     // Acceleration is an "all or nothing" thing -- no partial acceleration. Thus, up and down cancel out.
     //
-    // In practice, mag is a constant supplied from outside this function.
-    //
     // Note: This is not TagPro-style acceleration. That is to say, accelerating down and right at the same time gives
     // the same magnitude of acceleration as accelerating right only. In other words, if a character is already
     // accelerating right, starting to accelerate up at the same time reduces the x-acceleration.
-    void accelerate() {
+    private void accelerate() {
         Vector a = null;
         if (right == left && down == up) {
             // no "active" arrows; no acceleration

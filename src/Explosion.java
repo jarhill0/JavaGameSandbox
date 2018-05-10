@@ -2,7 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Explosion {
+class Explosion {
     BufferedImage image;
     private boolean visible = false;
     private int x;
@@ -33,13 +33,12 @@ public class Explosion {
     }
 
 
-    // get upper left hand corner coords, assuming 150x150 px image
     int getX() {
-        return x - 75;
+        return x - (image.getWidth() / 2);
     }
 
     int getY() {
-        return y - 75;
+        return y - (image.getHeight() / 2);
     }
 
     private void loadImage(String imageName) {
