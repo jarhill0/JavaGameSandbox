@@ -152,6 +152,16 @@ class Character {
         return distance < 50; // diameter
     }
 
+    // returns the center of mass of a collision between 2 circles as a length 2 array {x, y}
+    int[] collisionCenter(Character c) {
+        return collisionCenter(c.getX(), c.getY());
+    }
+
+    // returns the center of mass of a collision between 2 circles as a length 2 array {x, y}
+    int[] collisionCenter(int x, int y) {
+        return new int[]{(getX() + x) / 2, (getY() + y) / 2};
+    }
+
     public void setUp(boolean up) {
         this.up = up;
     }
