@@ -159,22 +159,24 @@ class Character {
 
     // returns the center of mass of a collision between 2 circles as a length 2 array {x, y}
     int[] collisionCenter(int x, int y) {
-        return new int[]{(getX() + x) / 2, (getY() + y) / 2};
+        int xSolution = (getX() + x) / 2;
+        int ySolution = (getY() + y) / 2;
+        return new int[]{xSolution + 25, ySolution + 25}; // offset for size of the images
     }
 
-    public void setUp(boolean up) {
+    void setUp(boolean up) {
         this.up = up;
     }
 
-    public void setDown(boolean down) {
+    void setDown(boolean down) {
         this.down = down;
     }
 
-    public void setLeft(boolean left) {
+    void setLeft(boolean left) {
         this.left = left;
     }
 
-    public void setRight(boolean right) {
+    void setRight(boolean right) {
         this.right = right;
     }
 

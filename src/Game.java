@@ -41,25 +41,28 @@ class Game extends JPanel {
         if (primaryCharacter == null || secondaryCharacter == null)
             return;
 
-        if (!primaryCharacter.isColliding(secondaryCharacter)) {
-            g.setColor(backgroundDefault);
+        if (primaryCharacter.isColliding(secondaryCharacter)) {
+            g.setColor(backgroundHighlight);
             if (!explosion.isVisible()) { // it will stick in the first place it's triggered!
                 int[] collisionLocation = primaryCharacter.collisionCenter(secondaryCharacter);
                 explosion.setVisible(collisionLocation[0], collisionLocation[1]);
             }
         } else {
-            g.setColor(backgroundHighlight);
+            g.setColor(backgroundDefault);
             explosion.setInvisible();
         }
 
         g.fillRect(0, 0, this.getWidth(), this.getHeight()); // fill the screen with the background color
 
-        // Paint characters
-        g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
-        g.drawImage(primaryCharacter.icon, primaryCharacter.getX(), primaryCharacter.getY(), null);
+        // explosion
         if (explosion.isVisible()) {
             g.drawImage(explosion.image, explosion.getX(), explosion.getY(), null);
         }
+
+        // Paint characters
+        g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
+        g.drawImage(primaryCharacter.icon, primaryCharacter.getX(), primaryCharacter.getY(), null);
+
 
     }
 

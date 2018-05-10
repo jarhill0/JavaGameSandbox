@@ -16,26 +16,30 @@ public class Explosion {
         this("explosion.png");
     }
 
-    public void setVisible(int x, int y) {
+
+    // set the center of the image
+    void setVisible(int x, int y) {
         visible = true;
         this.x = x;
         this.y = y;
     }
 
-    public void setInvisible() {
+    void setInvisible() {
         visible = false;
     }
 
-    public boolean isVisible() {
+    boolean isVisible() {
         return visible;
     }
 
-    public int getX() {
-        return x;
+
+    // get upper left hand corner coords, assuming 150x150 px image
+    int getX() {
+        return x - 75;
     }
 
-    public int getY() {
-        return y;
+    int getY() {
+        return y - 75;
     }
 
     private void loadImage(String imageName) {
