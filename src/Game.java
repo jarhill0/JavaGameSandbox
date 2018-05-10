@@ -43,10 +43,9 @@ class Game extends JPanel {
 
         if (primaryCharacter.isColliding(secondaryCharacter)) {
             g.setColor(backgroundHighlight);
-            if (!explosion.isVisible()) { // it will stick in the first place it's triggered!
-                int[] collisionLocation = primaryCharacter.collisionCenter(secondaryCharacter);
-                explosion.setVisible(collisionLocation[0], collisionLocation[1]);
-            }
+            int[] collisionLocation = primaryCharacter.collisionCenter(secondaryCharacter);
+            explosion.setVisible(collisionLocation[0], collisionLocation[1]);
+
         } else {
             g.setColor(backgroundDefault);
             explosion.setInvisible();
