@@ -1,12 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 // Main class
 class Game extends JPanel {
     private Character primaryCharacter;
     private Character secondaryCharacter;
     private Explosion explosion;
+
+    private List<Paintable> sprites = new ArrayList<Paintable>(3);
+
     private static Color backgroundDefault = Color.lightGray;
     private static Color backgroundHighlight = Color.yellow;
 
@@ -30,8 +34,11 @@ class Game extends JPanel {
         ArrayList<Character> characters = new ArrayList<Character>(2);
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
-
         myFrame.addKeyListener(new KeyboardHandler(characters));
+
+        sprites.add(primaryCharacter); // will be painted first and potentially painted over
+        sprites.add(secondaryCharacter);
+        sprites.add(explosion);
 
         myFrame.setVisible(true);
         new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
@@ -53,16 +60,8 @@ class Game extends JPanel {
 
         g.fillRect(0, 0, this.getWidth(), this.getHeight()); // fill the screen with the background color
 
-        // explosion
-        if (explosion.isVisible()) {
-            g.drawImage(explosion.image, explosion.getX(), explosion.getY(), null);
-        }
-
-        // Paint characters
-        g.drawImage(secondaryCharacter.icon, secondaryCharacter.getX(), secondaryCharacter.getY(), null);
-        g.drawImage(primaryCharacter.icon, primaryCharacter.getX(), primaryCharacter.getY(), null);
-
-
+        for (Paintable paintable : sprites)
+            paintable.paint(g);
     }
 
     public static void main(String[] args) {

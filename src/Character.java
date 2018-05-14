@@ -1,8 +1,9 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class Character {
+class Character implements Paintable {
     BufferedImage icon;
     private double[] position = new double[2];
     private Game game;
@@ -53,6 +54,11 @@ class Character {
 
     int getY() {
         return round(position[1]);
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(icon, getX(), getY(), null);
+
     }
 
     private static int round(double num) {

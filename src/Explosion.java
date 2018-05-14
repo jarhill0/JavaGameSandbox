@@ -1,8 +1,9 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class Explosion {
+class Explosion implements Paintable {
     BufferedImage image;
     private boolean visible = false;
     private int x;
@@ -39,6 +40,12 @@ class Explosion {
 
     int getY() {
         return y - (image.getHeight() / 2);
+    }
+
+    public void paint(Graphics g) {
+        if (isVisible()) {
+            g.drawImage(image, getX(), getY(), null);
+        }
     }
 
     private void loadImage(String imageName) {
