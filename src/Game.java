@@ -36,9 +36,9 @@ class Game extends JPanel {
         characters.add(secondaryCharacter);
         myFrame.addKeyListener(new KeyboardHandler(characters));
 
-        sprites.add(primaryCharacter); // will be painted first and potentially painted over
+        sprites.add(explosion);  // added in "bottom up" order that they will be painted
         sprites.add(secondaryCharacter);
-        sprites.add(explosion);
+        sprites.add(primaryCharacter);
 
         myFrame.setVisible(true);
         new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
