@@ -2,9 +2,11 @@ import java.awt.*;
 
 public class Countdown implements Paintable {
     private long zeroTime;
+    private Game game;
 
 
-    public Countdown(int timeLeft) {
+    public Countdown(Game game, int timeLeft) {
+        this.game = game;
         setTimeLeft(timeLeft);
     }
 
@@ -21,8 +23,10 @@ public class Countdown implements Paintable {
 
     public void paint(Graphics g) {
         int margin = 20;
+        int y = 2 * margin;
+        int x = game.getWidth() - 3 * margin;
         g.setColor(Color.BLACK);
         g.setFont(new Font(null, Font.BOLD, 30));
-        g.drawString(String.format("%d", getTimeLeft()), margin, 2 * margin);
+        g.drawString(String.format("%d", getTimeLeft()), x, y);
     }
 }

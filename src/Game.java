@@ -38,7 +38,7 @@ class Game extends JPanel {
         characters.add(secondaryCharacter);
         myFrame.addKeyListener(new KeyboardHandler(characters));
         tracker = new TurnTracker(this, characters);
-        countdown = new Countdown(31);
+        countdown = new Countdown(this, 31);
 
         sprites.add(tracker);
         sprites.add(countdown);
