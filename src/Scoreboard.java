@@ -16,7 +16,7 @@ public class Scoreboard implements Paintable {
         int fontSize = 40;
         g.setColor(Color.BLACK);
         g.setFont(new Font(null, Font.BOLD, fontSize));
-        int x = game.getWidth() - 40;
+        int x = (game.getWidth() / 2) - 40;
         int y = game.getHeight() - (fontSize + 10);
         g.drawString(scoreString, x, y);
     }
