@@ -10,6 +10,7 @@ class Character implements Paintable {
     private Vector velocity = new Vector();
 
     private static double acceleration = 0.22;
+    private int score = 0;
 
     // remember which keys are being pressed
     private boolean down = false;
@@ -59,6 +60,14 @@ class Character implements Paintable {
     public void paint(Graphics g) {
         g.drawImage(icon, getX(), getY(), null);
 
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void scorePoint() {
+        score++;
     }
 
     private static int round(double num) {

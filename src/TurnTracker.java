@@ -27,6 +27,7 @@ public class TurnTracker implements Paintable {
     }
 
     void switchTurn() {
+        getPlayerTurn().scorePoint();
         flag = !flag;
     }
 

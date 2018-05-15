@@ -39,9 +39,11 @@ class Game extends JPanel {
         myFrame.addKeyListener(new KeyboardHandler(characters));
         tracker = new TurnTracker(this, characters);
         countdown = new Countdown(this, 31);
+        Scoreboard scoreboard = new Scoreboard(this, primaryCharacter, secondaryCharacter);
 
         sprites.add(tracker);
         sprites.add(countdown);
+        sprites.add(scoreboard);
         sprites.add(explosion);  // added in "bottom up" order that they will be painted
         sprites.add(secondaryCharacter);
         sprites.add(primaryCharacter);
