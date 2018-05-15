@@ -8,7 +8,8 @@ class Game extends JPanel {
     private Character primaryCharacter;
     private Character secondaryCharacter;
     private Explosion explosion;
-    private TurnTracker tracker;
+    TurnTracker tracker;
+    Countdown countdown;
 
     private List<Paintable> sprites = new ArrayList<Paintable>(3);
 
@@ -37,8 +38,10 @@ class Game extends JPanel {
         characters.add(secondaryCharacter);
         myFrame.addKeyListener(new KeyboardHandler(characters));
         tracker = new TurnTracker(this, characters);
+        countdown = new Countdown(31);
 
         sprites.add(tracker);
+        sprites.add(countdown);
         sprites.add(explosion);  // added in "bottom up" order that they will be painted
         sprites.add(secondaryCharacter);
         sprites.add(primaryCharacter);
@@ -47,6 +50,7 @@ class Game extends JPanel {
         new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
     }
 
+    // todo seems like some of this should be in the GameLoop
     public void paintComponent(Graphics g) {
         if (primaryCharacter == null || secondaryCharacter == null)
             return;
@@ -71,7 +75,7 @@ class Game extends JPanel {
             resetPlayerPosition();
     }
 
-    private void resetPlayerPosition() {
+    void resetPlayerPosition() {
         primaryCharacter.setPosition(0, 0);
         primaryCharacter.resetVelocity();
 

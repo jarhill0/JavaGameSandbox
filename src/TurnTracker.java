@@ -26,7 +26,7 @@ public class TurnTracker implements Paintable {
         return retval;
     }
 
-    private void switchTurn() {
+    void switchTurn() {
         flag = !flag;
     }
 

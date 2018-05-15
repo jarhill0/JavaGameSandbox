@@ -23,6 +23,13 @@ class GameLoop extends Thread {
             for (Character character : characters)
                 character.step();
 
+            if (game.countdown.getTimeLeft() == 0) {
+                game.resetPlayerPosition();
+                game.tracker.switchTurn();
+                game.countdown.setTimeLeft(31);
+            }
+
+
             // sleep until next step
             try {
                 // sleep the difference until a proper frame time
