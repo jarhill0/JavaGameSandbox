@@ -1,0 +1,18 @@
+language: java
+
+script:
+  - ./build.sh
+
+before_deploy:
+  - git config --local user.name "jarhill0"
+  - git config --local user.email "jarhill0@users.noreply.github.com"
+  - git tag "$(date +'%Y-%m-%d,%H-%M-%S'),$(git log --format=%h -1)"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: 4AjYD9Di2sXxVXXo12c89lCWjkQPbr66kJemcXSBEkrqIVb5qGewTybaHG0yWzSE8VbhAjnB16/j7+OyOZrDkhDWDdebsLUoiClEen5cQlH7RUaBCVnqdmackbAqFjn1ib7F0WhZiJXhNKq/78eox+O1UgZnbPao8z/sWy43U8NnvuoYwQaEfLMWCpjl8s4cPP5ZvfM1gppDTOe/KqM0ET5sDLny7TleoSFz9BKa2eUsJCeOlzVFb+wcBeWOblSt6erfel3ICZD1U3t40iAmkkJ9LuR6NrVgoT89thtUYDs/nP1zuUrQlWP7vW3YEj1ALJyXjhU1fEhcYcSk++Y/YARwWPThHOdFVo2eXbsXX01JY5oBCetnAGAJxEBkQb2YMT/ZgbHLXsbRIjT61Ng6zRW63BGuEx2+A4C5Sg1Tm/P6GmW70Tt3wVmlvxl051XXbCEf8diMb8Rvx6g3yif8Cjv34MJWltjkV/wLMEZXsLU3pnYxmnZ89HX3ngSXhTqrXKSoyWUwRhDXycuHsJ5LC1nXYxjepaDVWCYppf6nwTwCET/qneO6BwbstgqRvS9QMQf9UAg5tWoBcWYK7lyj/hPm0AeMyDCEKQvbVRCg6zHc+TRTJYYkYHHBY3ZPNektVH25KXYoLM/i/8G+Gd0PwZPP1GBOStBf9je+zpSlE6g=
+  file: "out/production/JavaGameSandbox/Game.jar"
+  skip_cleanup: true
+  on:
+    repo: jarhill0/JavaGameSandbox
