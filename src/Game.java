@@ -8,6 +8,7 @@ class Game extends JPanel {
     private Character primaryCharacter;
     private Character secondaryCharacter;
     private Explosion explosion;
+    private TurnTracker tracker;
 
     private List<Paintable> sprites = new ArrayList<Paintable>(3);
 
@@ -35,7 +36,10 @@ class Game extends JPanel {
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
         myFrame.addKeyListener(new KeyboardHandler(characters));
+        TurnMarker marker = new TurnMarker(this, characters);
+        tracker = new TurnTracker(marker);
 
+        sprites.add(marker);
         sprites.add(explosion);  // added in "bottom up" order that they will be painted
         sprites.add(secondaryCharacter);
         sprites.add(primaryCharacter);
@@ -48,6 +52,7 @@ class Game extends JPanel {
         if (primaryCharacter == null || secondaryCharacter == null)
             return;
 
+        tracker.handle(primaryCharacter.isColliding(secondaryCharacter));
         if (primaryCharacter.isColliding(secondaryCharacter)) {
             g.setColor(backgroundHighlight);
             int[] collisionLocation = primaryCharacter.collisionCenter(secondaryCharacter);
