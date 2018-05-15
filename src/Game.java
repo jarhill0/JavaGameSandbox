@@ -52,7 +52,7 @@ class Game extends JPanel {
         if (primaryCharacter == null || secondaryCharacter == null)
             return;
 
-        tracker.handle(primaryCharacter.isColliding(secondaryCharacter));
+        boolean trackerValue = tracker.handle(primaryCharacter.isColliding(secondaryCharacter));
         if (primaryCharacter.isColliding(secondaryCharacter)) {
             g.setColor(backgroundHighlight);
             int[] collisionLocation = primaryCharacter.collisionCenter(secondaryCharacter);
@@ -67,6 +67,17 @@ class Game extends JPanel {
 
         for (Paintable paintable : sprites)
             paintable.paint(g);
+
+        if (trackerValue) // we just ended a collision
+            resetPlayerPosition();
+    }
+
+    private void resetPlayerPosition() {
+        primaryCharacter.setPosition(0, 0);
+        primaryCharacter.resetVelocity();
+
+        secondaryCharacter.setPosition(this.getWidth(), this.getHeight());
+        secondaryCharacter.resetVelocity();
     }
 
     public static void main(String[] args) {

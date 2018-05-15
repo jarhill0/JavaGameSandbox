@@ -6,9 +6,14 @@ public class TurnTracker {
         this.marker = marker;
     }
 
-    public void handle(boolean areColliding) {
-        if (inCollision && !areColliding)  // we just left a collision
+    // returns true if we toggle the "it" this frame
+    public boolean handle(boolean areColliding) {
+        boolean retval = false;  // bad practice, I know, but I need to set inCollision after reading it
+        if (inCollision && !areColliding) {  // we just left a collision
             marker.switchTurn();
+            retval = true;
+        }
         inCollision = areColliding;
+        return retval;
     }
 }

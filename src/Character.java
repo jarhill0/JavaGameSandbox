@@ -184,6 +184,14 @@ class Character implements Paintable {
         this.right = right;
     }
 
+    void setPosition(int x, int y) {
+        position[0] = (double) x;
+        position[1] = (double) y;
+    }
+
+    void resetVelocity() {
+        velocity = new Vector();
+    }
 
 }
 
