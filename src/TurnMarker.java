@@ -24,8 +24,8 @@ public class TurnMarker implements Paintable {
     public void paint(Graphics g) {
         int margin = 10; // px
         Character activePlayer = getPlayerTurn();
-        int x = game.getWidth() - (activePlayer.icon.getWidth() + 2 * margin);
-        int y = margin;
+        int x = margin;
+        int y = game.getHeight() - (activePlayer.icon.getHeight() + 3 * margin);
 
         g.setColor(Color.BLACK);
         g.drawString("You're it!", x, y);
