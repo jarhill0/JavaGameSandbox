@@ -71,8 +71,10 @@ class Game extends JPanel {
         for (Paintable paintable : sprites)
             paintable.paint(g);
 
-        if (trackerValue) // we just ended a collision
+        if (trackerValue) { // we just ended a collision
             resetPlayerPosition();
+            countdown.setTimeLeft(31);
+        }
     }
 
     void resetPlayerPosition() {

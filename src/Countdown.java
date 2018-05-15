@@ -9,7 +9,7 @@ public class Countdown implements Paintable {
     }
 
     int getTimeLeft() {
-        int timeLeft = (int) (zeroTime - System.currentTimeMillis());
+        int timeLeft = (int) (zeroTime - System.currentTimeMillis()) / 1000;
         return timeLeft > 0 ? timeLeft : 0;
     }
 
@@ -23,6 +23,6 @@ public class Countdown implements Paintable {
         int margin = 20;
         g.setColor(Color.BLACK);
         g.setFont(new Font(null, Font.BOLD, 30));
-        g.drawString(String.format("%d", getTimeLeft()), margin, margin);
+        g.drawString(String.format("%d", getTimeLeft()), margin, 2 * margin);
     }
 }
