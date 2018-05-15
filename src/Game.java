@@ -36,10 +36,9 @@ class Game extends JPanel {
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
         myFrame.addKeyListener(new KeyboardHandler(characters));
-        TurnMarker marker = new TurnMarker(this, characters);
-        tracker = new TurnTracker(marker);
+        tracker = new TurnTracker(this, characters);
 
-        sprites.add(marker);
+        sprites.add(tracker);
         sprites.add(explosion);  // added in "bottom up" order that they will be painted
         sprites.add(secondaryCharacter);
         sprites.add(primaryCharacter);
