@@ -19,15 +19,16 @@ public class TurnTracker implements Paintable {
     public boolean handle(boolean areColliding) {
         boolean retval = false;  // bad practice, I know, but I need to set inCollision after reading it
         if (inCollision && !areColliding) {  // we just left a collision
-            switchTurn();
+            switchTurn(true);
             retval = true;
         }
         inCollision = areColliding;
         return retval;
     }
 
-    void switchTurn() {
-        getPlayerTurn().scorePoint();
+    void switchTurn(boolean pointScored) {
+        if (pointScored)
+            getPlayerTurn().scorePoint();
         flag = !flag;
     }
 

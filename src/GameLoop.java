@@ -25,7 +25,7 @@ class GameLoop extends Thread {
 
             if (game.countdown.getTimeLeft() == 0) {
                 game.resetPlayerPosition();
-                game.tracker.switchTurn();
+                game.tracker.switchTurn(false);
                 game.countdown.setTimeLeft(31);
             }
 
