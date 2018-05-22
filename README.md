@@ -11,5 +11,5 @@ Currently I have built a working prototype.
 - ~~Add a max velocity~~
 - ~~Wall collisions should set that component of velocity to 0.~~
 - ~~Add friction?~~
-- ~~Add player collision~~
+- Add player collision
 - ~~Highlight location of collision~~
