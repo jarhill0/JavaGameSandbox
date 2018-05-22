@@ -35,7 +35,7 @@ class Game extends JPanel {
         explosion = new Explosion();
 
         primaryCharacter = new Character(this, "WASD.png");
-        secondaryCharacter = new Character(this, "IJKL.png", initialWidth, initialHeight);
+        secondaryCharacter = new Character(this, "IJKL.png");
         ArrayList<Character> characters = new ArrayList<Character>(2);
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
@@ -88,7 +88,8 @@ class Game extends JPanel {
         primaryCharacter.setPosition(0, 0);
         primaryCharacter.resetVelocity();
 
-        secondaryCharacter.setPosition(this.getWidth(), this.getHeight());
+        secondaryCharacter.setPosition(this.getWidth() - secondaryCharacter.icon.getWidth(),
+                this.getHeight() - secondaryCharacter.icon.getHeight());
         secondaryCharacter.resetVelocity();
     }
 
