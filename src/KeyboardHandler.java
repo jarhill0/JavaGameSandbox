@@ -4,11 +4,11 @@ import java.util.List;
 
 class KeyboardHandler extends KeyAdapter {
     private List<Character> characters;
-    private GameLoop gameLoop;
+    private Game game;
 
-    KeyboardHandler(List<Character> characters, GameLoop gameLoop) {
+    KeyboardHandler(List<Character> characters, Game game) {
         this.characters = characters;
-        this.gameLoop = gameLoop;
+        this.game = game;
     }
 
     private Character getCharacter(int key) {
@@ -29,12 +29,13 @@ class KeyboardHandler extends KeyAdapter {
 
         int key = e.getKeyCode();
 
-        // special keys
-        if (key == 27)
-            gameLoop.togglePause();
-        else if (key == 32)
-            gameLoop.tryRestart();
-
+        if (pressed) {
+            // special keys
+            if (key == 27)
+                game.togglePause();
+            else if (key == 32)
+                game.tryRestart();
+        }
         Character character = getCharacter(key);
 
         if (key == 37 || key == 65 || key == 74) {

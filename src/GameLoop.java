@@ -9,29 +9,20 @@ class GameLoop extends Thread {
 
     private Game game;
     private List<Character> characters;
-    private boolean paused = true;
-    private boolean restart = false;
+
 
     GameLoop(Game game, List<Character> characters) {
         this.game = game;
         this.characters = characters;
     }
 
-    public void togglePause() {
-        paused = !paused;
-    }
-
-    public void tryRestart() {
-        if (paused)
-            restart = true;
-    }
 
     public void run() {
         while (true) {
             long stepTime = System.nanoTime();  // record time before game step
             game.repaint();
 
-            if (!paused) {
+            if (!game.isPaused()) {
                 for (Character character : characters)
                     character.step();
 
@@ -40,14 +31,6 @@ class GameLoop extends Thread {
                     game.tracker.switchTurn(false);
                     game.countdown.setTimeLeft(31);
                 }
-            }
-
-            if (restart) {
-                restart = false;
-                paused = false;
-                game.resetPlayerPosition();
-                game.resetAllScores();
-                game.countdown.setTimeLeft(31);
             }
 
 

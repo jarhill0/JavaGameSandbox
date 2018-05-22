@@ -2,6 +2,8 @@ import java.awt.*;
 
 public class Countdown implements Paintable {
     private long zeroTime;
+    private long pauseTime = 0;
+    private int cachedValue;
     private Game game;
 
 
@@ -11,6 +13,8 @@ public class Countdown implements Paintable {
     }
 
     int getTimeLeft() {
+        if (pauseTime != 0)
+            return cachedValue;
         int timeLeft = (int) (zeroTime - System.currentTimeMillis()) / 1000;
         return timeLeft > 0 ? timeLeft : 0;
     }
@@ -19,6 +23,19 @@ public class Countdown implements Paintable {
         if (time < 0)
             time = 0;
         zeroTime = System.currentTimeMillis() + time * 1000;
+    }
+
+    void pause() {
+        cachedValue = getTimeLeft();
+        pauseTime = System.currentTimeMillis();
+    }
+
+    void unpause() {
+        if (pauseTime != 0)
+            return; // invalid call
+        long diff = System.currentTimeMillis() - pauseTime;
+        zeroTime += diff;
+        pauseTime = 0;
     }
 
     public void paint(Graphics g) {

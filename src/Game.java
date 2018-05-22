@@ -15,6 +15,9 @@ class Game extends JPanel {
 
     private static Color backgroundDefault = Color.lightGray;
     private static Color backgroundHighlight = Color.yellow;
+    private static Color backgroundPaused = Color.cyan;
+
+    private boolean paused;
 
     // Construct and start a game.
     private Game() {
@@ -49,7 +52,8 @@ class Game extends JPanel {
 
         myFrame.setVisible(true);
         GameLoop gameLoop = new GameLoop(this, characters);
-        myFrame.addKeyListener(new KeyboardHandler(characters, gameLoop));
+        myFrame.addKeyListener(new KeyboardHandler(characters, this));
+        restart();
         gameLoop.start(); // Starts infinite loop in painting/physics thread
     }
 
@@ -65,7 +69,7 @@ class Game extends JPanel {
             explosion.setVisible(collisionLocation[0], collisionLocation[1]);
 
         } else {
-            g.setColor(backgroundDefault);
+            g.setColor(isPaused() ? backgroundPaused : backgroundDefault);
             explosion.setInvisible();
         }
 
@@ -88,9 +92,38 @@ class Game extends JPanel {
         secondaryCharacter.resetVelocity();
     }
 
-    public void resetAllScores() {
+    public void restart() {
         primaryCharacter.resetScore();
         secondaryCharacter.resetScore();
+        resetPlayerPosition();
+        pause();
+    }
+
+    public void pause() {
+        countdown.setTimeLeft(31);
+        countdown.pause();
+        paused = true;
+    }
+
+    public void unpause() {
+        countdown.unpause();
+        paused = false;
+    }
+
+    public void togglePause() {
+        if (paused)
+            unpause();
+        else
+            pause();
+    }
+
+    public void tryRestart() {// will only work if paused
+        if (paused)
+            restart();
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 
     public static void main(String[] args) {
