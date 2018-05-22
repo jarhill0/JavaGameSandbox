@@ -66,6 +66,10 @@ class Character implements Paintable {
         return score;
     }
 
+    public void resetScore() {
+        score = 0;
+    }
+
     public void scorePoint() {
         score++;
     }

@@ -36,7 +36,6 @@ class Game extends JPanel {
         ArrayList<Character> characters = new ArrayList<Character>(2);
         characters.add(primaryCharacter);
         characters.add(secondaryCharacter);
-        myFrame.addKeyListener(new KeyboardHandler(characters));
         tracker = new TurnTracker(this, characters);
         countdown = new Countdown(this, 31);
         Scoreboard scoreboard = new Scoreboard(this, primaryCharacter, secondaryCharacter);
@@ -49,7 +48,9 @@ class Game extends JPanel {
         sprites.add(primaryCharacter);
 
         myFrame.setVisible(true);
-        new GameLoop(this, characters).start(); // Starts infinite loop in painting/physics thread
+        GameLoop gameLoop = new GameLoop(this, characters);
+        myFrame.addKeyListener(new KeyboardHandler(characters, gameLoop));
+        gameLoop.start(); // Starts infinite loop in painting/physics thread
     }
 
     // todo seems like some of this should be in the GameLoop
@@ -85,6 +86,11 @@ class Game extends JPanel {
 
         secondaryCharacter.setPosition(this.getWidth(), this.getHeight());
         secondaryCharacter.resetVelocity();
+    }
+
+    public void resetAllScores() {
+        primaryCharacter.resetScore();
+        secondaryCharacter.resetScore();
     }
 
     public static void main(String[] args) {
