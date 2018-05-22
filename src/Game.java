@@ -96,11 +96,11 @@ class Game extends JPanel {
         primaryCharacter.resetScore();
         secondaryCharacter.resetScore();
         resetPlayerPosition();
+        countdown.setTimeLeft(31);
         pause();
     }
 
     public void pause() {
-        countdown.setTimeLeft(31);
         countdown.pause();
         paused = true;
     }
