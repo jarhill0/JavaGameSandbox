@@ -31,7 +31,7 @@ public class Countdown implements Paintable {
     }
 
     void unpause() {
-        if (pauseTime != 0)
+        if (pauseTime == 0)
             return; // invalid call
         long diff = System.currentTimeMillis() - pauseTime;
         zeroTime += diff;
