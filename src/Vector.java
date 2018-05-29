@@ -2,6 +2,7 @@ class Vector {
     private double x, y; // direction is in radians
     static double EIGHTH = Math.PI / 4;
     static double QUARTER = Math.PI / 2;
+    static double HALF = Math.PI;
 
     Vector() {
         x = y = 0;

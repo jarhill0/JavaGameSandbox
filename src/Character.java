@@ -122,11 +122,11 @@ class Character implements Paintable {
             // no "active" arrows; no acceleration
             return;
         } else if (right == left) { // down != up
-            velocity.add(acceleration, Vector.QUARTER);
+            velocity.add(acceleration, (up ? 1 : 3) * Vector.QUARTER);  // up or down only
         } else if (up == down) {
-            velocity.add(acceleration, 0);
+            velocity.add(acceleration, right ? 0 : Vector.HALF);
         } else {
-            velocity.add(acceleration, Vector.EIGHTH);
+            velocity.add(acceleration, Vector.EIGHTH * ((left ? 1 : 0) + (down ? 2 : 0)));  // weird math to find direction
         }
     }
 
