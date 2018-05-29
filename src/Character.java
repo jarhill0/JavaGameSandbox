@@ -10,6 +10,7 @@ class Character implements Paintable {
     private Vector velocity = new Vector();
 
     private static double acceleration = 0.22;
+    private static double bounciness = -0.1;
     private int score = 0;
 
     // remember which keys are being pressed
@@ -95,26 +96,18 @@ class Character implements Paintable {
         int width = game.getWidth();
         int height = game.getHeight();
 
-        double bounciness = 0.1;
 
-        if (position[0] + icon.getWidth() > width) { // if we're off the right edge
-            // Bounce our x-velocity back. For example, (-1.1 * 3 px/s) + (3 px/s) results in a velocity of -0.3 px/s
-            velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX())); // The 1 cancels out the current velocity
-            position[0] = width - icon.getWidth(); // push back from the wall
-        } else if (position[0] < 0) { // if we're off the left edge
-            // // Bounce our x-velocity back
-            velocity.add(Vector.horizontalVector(-(bounciness + 1) * velocity.getX()));
-            position[0] = 0; // push back from the wall
+        if (position[0] + icon.getWidth() > width || position[0] < 0) { // if we're off the right or left edge
+            // Bounce our x-velocity back
+            velocity.shortenX(bounciness); // small amount in opposite direction
+            position[0] = position[0] < 0 ? 0 : width - icon.getWidth(); // push back from the wall
         }
 
         // same as above, only for the top and bottom edges
 
-        if (position[1] + icon.getHeight() > height) {
-            velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
-            position[1] = height - icon.getHeight();
-        } else if (position[1] < 0) {
-            velocity.add(Vector.verticalVector(-(bounciness + 1) * velocity.getY()));
-            position[1] = 0;
+        if (position[1] + icon.getHeight() > height || position[1] < 0) {
+            velocity.shortenY(bounciness);
+            position[1] = position[1] < 0 ? 0 : height - icon.getHeight();
         }
     }
 
@@ -125,26 +118,16 @@ class Character implements Paintable {
     // the same magnitude of acceleration as accelerating right only. In other words, if a character is already
     // accelerating right, starting to accelerate up at the same time reduces the x-acceleration.
     private void accelerate() {
-        Vector a = null;
         if (right == left && down == up) {
             // no "active" arrows; no acceleration
             return;
         } else if (right == left) { // down != up
-            a = Vector.verticalVector(acceleration * (down ? 1 : -1));
+            velocity.add(acceleration, Vector.QUARTER);
         } else if (up == down) {
-            a = Vector.horizontalVector(acceleration * (right ? 1 : -1));
+            velocity.add(acceleration, 0);
         } else {
-            if (right && down)
-                a = new Vector(acceleration, Vector.EIGHTH); // 45-deg with specified magnitude
-            if (left && down)
-                a = new Vector(acceleration, 3 * Vector.EIGHTH);
-            if (right && up)
-                a = new Vector(acceleration, -Vector.EIGHTH);
-            if (left && up)
-                a = new Vector(acceleration, -3 * Vector.EIGHTH);
+            velocity.add(acceleration, Vector.EIGHTH);
         }
-
-        velocity.add(a); // update the velocity
     }
 
     private void frict() {
