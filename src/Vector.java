@@ -1,16 +1,15 @@
 class Vector {
-    private double x, y; // direction is in radians
-    static double EIGHTH = Math.PI / 4;
-    static double QUARTER = Math.PI / 2;
-    static double HALF = Math.PI;
+    private double x, y;
+
+
+    // Get the length of each non-hypotenuse side of a 45-degree right triangle with hypotenuse of length magnitude
+    // Used for normalizing maximum acceleration to a constant value
+    static double normalize(double magnitude) {
+        return magnitude / Math.cos(Math.PI / 4);
+    }
 
     Vector() {
         x = y = 0;
-    }
-
-    Vector(double magnitude, double direction) {
-        x = magnitude * Math.cos(direction);
-        y = magnitude * Math.sin(direction);
     }
 
 
@@ -23,10 +22,14 @@ class Vector {
     }
 
 
-    void add(double magnitude, double direction) {
-        x += magnitude * Math.cos(direction);
-        y += magnitude * Math.sin(direction);
+    void addX(double x) {
+        this.x += x;
     }
+
+    void addY(double y) {
+        this.y += y;
+    }
+
 
     void shortenInPlace(double by) {
         shortenX(by);

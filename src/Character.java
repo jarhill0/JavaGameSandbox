@@ -10,6 +10,7 @@ class Character implements Paintable {
     private Vector velocity = new Vector();
 
     private static double acceleration = 0.22;
+    private static double diagonalAcceleration = Vector.normalize(acceleration);
     private static double bounciness = -0.1;
     private int score = 0;
 
@@ -122,11 +123,12 @@ class Character implements Paintable {
             // no "active" arrows; no acceleration
             return;
         } else if (right == left) { // down != up
-            velocity.add(acceleration, (up ? 1 : 3) * Vector.QUARTER);  // up or down only
+            velocity.addY((down ? 1 : -1) * acceleration);
         } else if (up == down) {
-            velocity.add(acceleration, right ? 0 : Vector.HALF);
+            velocity.addX((right ? 1 : -1) * acceleration);
         } else {
-            velocity.add(acceleration, Vector.EIGHTH * ((left ? 1 : 0) + (down ? 2 : 0)));  // weird math to find direction
+            velocity.addX((right ? 1 : -1) * diagonalAcceleration);
+            velocity.addY((down ? 1 : -1) * diagonalAcceleration);
         }
     }
 
