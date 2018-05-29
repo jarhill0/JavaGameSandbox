@@ -5,7 +5,7 @@ class Vector {
     // Get the length of each non-hypotenuse side of a 45-degree right triangle with hypotenuse of length magnitude
     // Used for normalizing maximum acceleration to a constant value
     static double normalize(double magnitude) {
-        return magnitude / Math.cos(Math.PI / 4);
+        return magnitude * Math.cos(Math.PI / 4);
     }
 
     Vector() {
