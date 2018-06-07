@@ -77,7 +77,7 @@ class Game extends JPanel {
         if (isPaused()) {
             g.setColor(Color.BLACK);
             g.drawString("[ESC] to unpause", getWidth() / 2 - 50, 30);
-            g.drawString("[SPACE] to restart", getWidth() / 2 - 60, 45);
+            g.drawString("[SPACE] to restart", getWidth() / 2 - 50, 45);
 
         }
 
