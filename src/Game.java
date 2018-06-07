@@ -76,7 +76,7 @@ class Game extends JPanel {
         g.fillRect(0, 0, this.getWidth(), this.getHeight()); // fill the screen with the background color
         if (isPaused()) {
             g.setColor(Color.BLACK);
-            g.drawString("[ESC} to unpause\b[SPACE] to restart", 300, 200);
+            g.drawString("[ESC} to unpause\n[SPACE] to restart", getWidth() / 2 - 80, 0);
         }
 
         for (Paintable paintable : sprites)
